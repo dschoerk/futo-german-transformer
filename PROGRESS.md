@@ -12,7 +12,7 @@ Related: futo-org/android-keyboard#2400 (Hungarian request; same need).
 - [x] M5 Train 34.4M Llama (8L/512/FFN1280) on RTX 3090: 52,960 steps (3 epochs, 1.7B tokens), 11:13–16:17, val loss 2.98 / token acc 46.7%
 - [x] M6 GGUF export + validation (`scripts/05_export_gguf.py`, `scripts/check_gguf.py`)
 - [ ] M7 Eval (top-k next word, autocorrect) done (`scripts/06_eval.py`); on-device test in FUTO pending
-- [ ] M8 Publish model: v1.0 GGUF + release notes ready, GitHub release not yet created (v0.1-10k pre-release exists); comment on upstream issue pending
+- [ ] M8 Publish model: GitHub release v1.0 done (https://github.com/dschoerk/futo-german-transformer/releases/tag/v1.0); comment on upstream issue pending
 - [ ] v2: chat-focused model, see docs/V2_PLAN.md
 
 ## Log
@@ -33,4 +33,4 @@ Related: futo-org/android-keyboard#2400 (Hungarian request; same need).
   - Eval on seed 2 (about 1.9k cases), top-1/top-3: autocorrect 65.5/78.7, full word 74.0/86.8, next word 19.8/33.5.
   - Eval on seed 1 (the same 420 cases as at 10k/15k), top-1: autocorrect 59.5 → 66.9, full word 67.0 → 73.9, next word 14.3 → 20.2.
   - Contraction probe: still weak (`gehts` → gehts/geht/gesagt, `habs` → habe/habs/hab; *gibt's* works). This is v2 work (docs/V2_PLAN.md §2b).
-  - Release candidate: `de_keyboard_v1.0_q6_k.gguf` (37.4 MB, sha256 6f711775…08e29), to be published as GitHub release v1.0.
+  - Published as GitHub release v1.0: `de_keyboard_v1.0_q6_k.gguf` (37.4 MB, sha256 6f711775…08e29; the downloaded asset's checksum was verified).
