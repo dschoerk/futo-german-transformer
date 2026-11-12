@@ -57,7 +57,8 @@ def main():
     w.add_string("keyboardlm.features", args.features)
     w.add_string("keyboardlm.ext_tokenizer_type", "sentencepiece")
     w.add_string("keyboardlm.layouts", "qwertz")  # informational, see docs/upstream_patch.md (ignored by the app today)
-    w.add_array("keyboardlm.ext_tokenizer_data", np.frombuffer(tok_bytes, dtype=np.uint8).tolist())
+    # must be a UINT8 array: the app (ModelMeta.cpp) reads gguf_get_arr_n() *bytes* from the raw array data
+    w.add_key_value("keyboardlm.ext_tokenizer_data", tok_bytes, gguf.GGUFValueType.ARRAY, sub_type=gguf.GGUFValueType.UINT8)
 
     w.add_context_length(2048)  # app's LLAMA_CONTEXT_SIZE; English model declares the same
     w.add_embedding_length(cfg["hidden_size"])

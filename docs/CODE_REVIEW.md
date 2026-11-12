@@ -11,4 +11,5 @@
 | 7 | Medium | Thermal guard killed jobs (lost work); `pgrep -f` matched its own and waiting shells → never exited | Fixed: pause/resume, python-only targets |
 | 8 | Medium | Variable-shape boolean-mask loss fragmented CUDA memory (OOM warning) | Fixed: `ignore_index=-100` |
 | 9 | High | (export) HF q/k weights need llama.cpp RoPE permutation; the Greek exporter skips it | Done in 05_export_gguf.py; to verify by logit parity |
+| 11 | Critical | (export) tokenizer blob written as INT32 array; the app reads `gguf_get_arr_n` *bytes* → SentencePiece load would fail on device | Fixed: explicit UINT8; `check_gguf.py` emulates the app's read and checks all metadata types (old export FAILS, new PASSES); full key/type/tensor diff vs English model is identical |
 | 10 | Low | val/test split per sentence leaks document neighbours; FineWeb sample is mostly the 2013 crawl; no emoji | Open |

@@ -28,6 +28,20 @@ feats = (val("keyboardlm.features") or "").split()
 check({"base_v1", "inverted_space", "xbu_char_autocorrect_v1"} <= set(feats), f"features {feats}")
 check(val("keyboardlm.languages") == "de", f"languages {val('keyboardlm.languages')}")
 check(val("keyboardlm.ext_tokenizer_type") == "sentencepiece", "ext tokenizer sentencepiece")
+# metadata types exactly as ModelMeta.cpp expects them
+T = gguf.GGUFValueType
+for key, want in [("keyboardlm.languages", [T.STRING]), ("keyboardlm.features", [T.STRING]),
+                  ("keyboardlm.ext_tokenizer_type", [T.STRING]), ("keyboardlm.history", [T.STRING]),
+                  ("keyboardlm.finetuning_count", [T.UINT32]), ("keyboardlm.ext_tokenizer_data", [T.ARRAY, T.UINT8])]:
+    check(key in f and list(f[key].types) == want, f"{key} type {list(f[key].types) if key in f else None}")
+# emulate the app: raw array data, gguf_get_arr_n() bytes, LoadFromSerializedProto
+fd = f["keyboardlm.ext_tokenizer_data"]
+raw = bytes(np.concatenate([np.asarray(fd.parts[i]).view(np.uint8).ravel() for i in fd.data]))[: len(fd.data)]
+app_sp = spm.SentencePieceProcessor()
+try:
+    app_sp.LoadFromSerializedProto(raw); check(app_sp.get_piece_size() > 0, "app-style tokenizer load")
+except Exception as e:
+    check(False, f"app-style tokenizer load ({e})")
 names = {t.name for t in r.tensors}
 check({"token_embd.weight", "output.weight", "output_norm.weight"} <= names, "embedding/output tensors present")
 sp = spm.SentencePieceProcessor(); sp.LoadFromSerializedProto(bytes(val("keyboardlm.ext_tokenizer_data")))
