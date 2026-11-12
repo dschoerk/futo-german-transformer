@@ -1,0 +1,201 @@
+{
+ "report": {
+  "next_word": {
+   "n": 420,
+   "top1": 0.1429,
+   "top3": 0.25
+  },
+  "autocorrect": {
+   "n": 420,
+   "top1": 0.5952,
+   "top3": 0.75
+  },
+  "autocorrect_full_word": {
+   "n": 318,
+   "top1": 0.6698,
+   "top3": 0.8333
+  },
+  "typed_equals_target_share": 0.0357
+ },
+ "examples": [
+  {
+   "ctx": "Der Rechnungsempfänger ist",
+   "target": "hierbei",
+   "next": [
+    "verpflichtet",
+    "in",
+    "der"
+   ],
+   "typed": "hi",
+   "corrected": [
+    "bei",
+    "in",
+    "ein"
+   ]
+  },
+  {
+   "ctx": "Il Mulino,",
+   "target": "Bologna",
+   "next": [
+    "der",
+    "ein",
+    "1999"
+   ],
+   "typed": "oogns",
+   "corrected": [
+    "Mognos",
+    "Moogs",
+    "Oognos"
+   ]
+  },
+  {
+   "ctx": "vor allem in älterer deutschsprachiger",
+   "target": "Literatur",
+   "next": [
+    "Literatur",
+    "Zeit",
+    "Sprache"
+   ],
+   "typed": "jzersz",
+   "corrected": [
+    "Literatur",
+    "Übersetzung",
+    "Herrschaft"
+   ]
+  },
+  {
+   "ctx": "Die Reformation",
+   "target": "war",
+   "next": [
+    "wurde",
+    "war",
+    "in"
+   ],
+   "typed": "sr",
+   "corrected": [
+    "war",
+    "der",
+    "ist"
+   ]
+  },
+  {
+   "ctx": "Zudem",
+   "target": "veröffentlicht",
+   "next": [
+    "ist",
+    "wurde",
+    "wird"
+   ],
+   "typed": "erfofemt",
+   "corrected": [
+    "eröffnete",
+    "veröffentlichte",
+    "eröffnet"
+   ]
+  },
+  {
+   "ctx": "Sie sind zuständig",
+   "target": "für",
+   "next": [
+    "für",
+    "und",
+    "über"
+   ],
+   "typed": "fr",
+   "corrected": [
+    "für",
+    "dafür",
+    "der"
+   ]
+  },
+  {
+   "ctx": "sondern auch sozial und ökonomisch optimale Lösungen entwickeln",
+   "target": "zu",
+   "next": [
+    "und",
+    "wir",
+    "die"
+   ],
+   "typed": "zu",
+   "corrected": [
+    "zu",
+    "zur",
+    "zum"
+   ]
+  },
+  {
+   "ctx": "Verursacht wird dies normalerweise durch eine",
+   "target": "dünne",
+   "next": [
+    "sehr",
+    "Vermischung",
+    "Verankerung"
+   ],
+   "typed": "dpenm",
+   "corrected": [
+    "dünne",
+    "sogenannte",
+    "Spannung"
+   ]
+  },
+  {
+   "ctx": "Auch in",
+   "target": "Deutschland",
+   "next": [
+    "der",
+    "den",
+    "diesem"
+   ],
+   "typed": "deztdcl",
+   "corrected": [
+    "Deutschland",
+    "Deutschlands"
+   ]
+  },
+  {
+   "ctx": "Kircher behandelt ferner",
+   "target": "die",
+   "next": [
+    "die",
+    "den",
+    "das"
+   ],
+   "typed": "dei",
+   "corrected": [
+    "die",
+    "seine",
+    "diese"
+   ]
+  },
+  {
+   "ctx": "1540 schloss der hessische Landgraf Philipp I. in",
+   "target": "Rotenburg",
+   "next": [
+    "der",
+    "Nürnberg",
+    "den"
+   ],
+   "typed": "robengurg",
+   "corrected": [
+    "Nürnberg",
+    "Rovanburg",
+    "Vorbegründe"
+   ]
+  },
+  {
+   "ctx": "Das (effektive) Phasenvolumenverhältnis kann",
+   "target": "außerdem",
+   "next": [
+    "durch",
+    "auch",
+    "sich"
+   ],
+   "typed": "uaerd",
+   "corrected": [
+    "daher",
+    "außerdem",
+    "außer"
+   ]
+  }
+ ]
+}
