@@ -57,7 +57,7 @@ def main():
     a1.set_ylabel("loss (nats/token)")
     a1.legend(loc="upper right", frameon=False)
     a1.annotate(f"val {vl[-1]:.2f}", (vs[-1], vl[-1]), xytext=(6, 8), textcoords="offset points", color=INK, fontsize=9)
-    a1.text(0.06, 0.98, "first ~500 steps off-scale (loss 9.0 → 4.8)", transform=a1.transAxes, va="top",
+    a1.text(0.06, 0.90, "first ~500 steps off-scale (loss 9.0 → 4.8)", transform=a1.transAxes, va="top",
             fontsize=8, color=INK2)
     for e in range(1, math.ceil(args.total / args.epoch_steps)):
         a1.text(e * args.epoch_steps, 4.2, f" epoch {e + 1}", va="top", fontsize=8, color=INK2)
