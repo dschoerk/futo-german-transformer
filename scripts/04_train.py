@@ -94,7 +94,7 @@ def main():
     ap.add_argument("--warmup", type=int, default=1000)
     ap.add_argument("--layers", type=int, default=8, help="English FUTO model: 8 layers, 512 hidden")
     ap.add_argument("--hidden", type=int, default=512)
-    ap.add_argument("--inter", type=int, default=1376)
+    ap.add_argument("--inter", type=int, default=1280, help="multiple of 256 so every tensor can be Q6_K")
     ap.add_argument("--heads", type=int, default=8)
     ap.add_argument("--vocab", type=int, default=20000)
     ap.add_argument("--seq-len", type=int, default=128)

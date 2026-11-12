@@ -32,9 +32,23 @@ layout set name is `qwerty` or the letters spell `qwertyuiopasdfghjklzxcvbnm`, *
 "Allow transformer models on non QWERTY layouts" is on. German QWERTZ fails this gate.
 => Users need the dev toggle, or FUTO needs a patch (see `docs/upstream_patch.md` once written).
 
-## Differences from the community Greek model (stamchry/greek-keyboard-lm)
-It exports features `base_v1 inverted_space lora_finetunable_v1` (no `xbu_char_autocorrect_v1`, no CHAR tokens
-despite its README), i.e. next-word / completion only. We aim for the full protocol.
+## Non-ASCII keystrokes at inference (important for German)
+`native/jni/org_futo_inputmethod_latin_xlm_LanguageModel.cpp` (last changed 2026-07-27, `f7749cfcc0`), mix building
+around L1052–1150:
+- `partialWordString` comes from `jstring2string`, so it is UTF-8 **bytes**. `inComposeX/Y` hold one coordinate per
+  keystroke, and `inputSize = min(#coords, #bytes)`.
+- The loop indexes both by the same `i`. Bytes outside a–z / A–Z / 0–9 are skipped (L1056). ä/ö/ü/ß are 2 bytes each,
+  so after an umlaut each byte gets the coordinate of a later keystroke, and the final keystrokes fall off the end.
+- Mix tokens come from the keys nearest each tap coordinate (L1143), not from the typed character. Only a–z keys
+  get weight.
+- Example: for "über" the model sees taps for `e r` only; for "schön", `s c h` only.
+- From reading the code; not tested on a device. The polyglot fork (patch 0001) fixes it, and upstream declined to
+  (#2371).
+
+## Community models
+See `docs/PRIOR_ART.md`. Two German models already exist (jblechert, VerbalJungle). The Greek model
+(stamchry/greek-keyboard-lm) exports `base_v1 inverted_space lora_finetunable_v1`: no `xbu_char_autocorrect_v1` and no
+CHAR tokens, despite its README, so next-word and completion only. We aim for the full protocol.
 
 ## Reference: FUTO's English model (`ml4_q6_k.gguf`, from gitlab.futo.org/keyboard/keyboard-large-resources)
 - llama, 8 layers, 512 hidden, FFN 1024, 8 heads, rms eps 1e-6, rope base 10000, `context_length` 2048, Q6_K.

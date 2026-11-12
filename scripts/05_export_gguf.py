@@ -4,9 +4,9 @@
 * arch `llama`, tensors named like llama.cpp; q/k weights permuted for llama.cpp RoPE (as convert_hf_to_gguf.py does)
 * tied embeddings duplicated as `output.weight` (the app needs both tensors)
 * `keyboardlm.*` metadata; the SentencePiece model is embedded in `keyboardlm.ext_tokenizer_data`
-* optional quantization via llama.cpp's `llama-quantize` (Q6_K like the English model)
+* quantization through llama.cpp's C API (llama-cpp-python), Q6_K like the English model
 """
-import argparse, json, shutil, subprocess
+import argparse, json
 from datetime import date
 from pathlib import Path
 import numpy as np
@@ -37,8 +37,7 @@ def main():
     ap.add_argument("--name", default="German v1")
     ap.add_argument("--languages", default="de")
     ap.add_argument("--features", default=FEATURES)
-    ap.add_argument("--quantize", default="Q6_K", help="llama-quantize type, or 'none'")
-    ap.add_argument("--llama-quantize", default=shutil.which("llama-quantize") or "llama-quantize")
+    ap.add_argument("--quantize", default="Q6_K", help="Q6_K, Q8_0 or 'none'")
     args = ap.parse_args()
 
     md = Path(args.model_dir)
@@ -103,8 +102,12 @@ def main():
     print(f"wrote {out} ({out.stat().st_size/1e6:.1f} MB)")
 
     if args.quantize.lower() != "none":
+        import ctypes, llama_cpp
         q = out.with_name(out.name.replace("_f16", f"_{args.quantize.lower()}"))
-        subprocess.run([args.llama_quantize, str(out), str(q), args.quantize], check=True)
+        params = llama_cpp.llama_model_quantize_default_params()
+        params.ftype = getattr(llama_cpp, f"LLAMA_FTYPE_MOSTLY_{args.quantize.upper()}")
+        rc = llama_cpp.llama_model_quantize(str(out).encode(), str(q).encode(), ctypes.byref(params))
+        assert rc == 0, f"quantize failed ({rc})"
         print(f"wrote {q} ({q.stat().st_size/1e6:.1f} MB)")
 
 
