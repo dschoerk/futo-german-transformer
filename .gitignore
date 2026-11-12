@@ -1,0 +1,10 @@
+.venv/
+data/
+models/
+__pycache__/
+*.gguf
+*.pt
+*.safetensors
+*.model
+*.vocab
+logs/
