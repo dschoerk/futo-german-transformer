@@ -1,0 +1,201 @@
+{
+ "report": {
+  "next_word": {
+   "n": 1919,
+   "top1": 0.1975,
+   "top3": 0.3351
+  },
+  "autocorrect": {
+   "n": 1913,
+   "top1": 0.6545,
+   "top3": 0.7872
+  },
+  "autocorrect_full_word": {
+   "n": 1435,
+   "top1": 0.7401,
+   "top3": 0.8683
+  },
+  "typed_equals_target_share": 0.0429
+ },
+ "examples": [
+  {
+   "ctx": "Ein weiteres",
+   "target": "erhebliches",
+   "next": [
+    "Problem",
+    "Beispiel",
+    "wichtiges"
+   ],
+   "typed": "erhebliches",
+   "corrected": [
+    "erhebliches",
+    "erheblich",
+    "erheblichen"
+   ]
+  },
+  {
+   "ctx": "Airgíalla waren Unterkönigreiche unter der",
+   "target": "Herrschaft",
+   "next": [
+    "Führung",
+    "Herrschaft",
+    "Regentschaft"
+   ],
+   "typed": "herrsc",
+   "corrected": [
+    "Herrschaft",
+    "herrschenden",
+    "Herrscherin"
+   ]
+  },
+  {
+   "ctx": "die Triamterene 75mg /5 ml dosierung neu überarbeitete Benemid",
+   "target": "prolong",
+   "next": [
+    "100mg",
+    "50mg",
+    "10mg"
+   ],
+   "typed": "prloojh",
+   "corrected": [
+    "Prolong",
+    "Prolog",
+    "Prophylaxe"
+   ]
+  },
+  {
+   "ctx": "Ist die Hochschule altbacken und",
+   "target": "zu",
+   "next": [
+    "hat",
+    "die",
+    "nicht"
+   ],
+   "typed": "u",
+   "corrected": [
+    "in",
+    "im",
+    "so"
+   ]
+  },
+  {
+   "ctx": "In: Zeitschrift",
+   "target": "der",
+   "next": [
+    "für",
+    "der",
+    "des"
+   ],
+   "typed": "ef",
+   "corrected": [
+    "für",
+    "der",
+    "des"
+   ]
+  },
+  {
+   "ctx": "In letzterem Blatt hieß es zur Begründung unter anderem, dass die",
+   "target": "Kontinuität",
+   "next": [
+    "Kommission",
+    "Beklagte",
+    "Begründung"
+   ],
+   "typed": "kontinutlt",
+   "corrected": [
+    "Kontinuität",
+    "kontinuierliche",
+    "Kontinuitäten"
+   ]
+  },
+  {
+   "ctx": "Bedenken, dass die",
+   "target": "Alpha-Liponsäure",
+   "next": [
+    "meisten",
+    "Kommission",
+    "Betroffenen"
+   ],
+   "typed": "apohaluplnsaeure",
+   "corrected": [
+    "Applikationsseite",
+    "apokalyptische",
+    "Apokalypse-Mauer"
+   ]
+  },
+  {
+   "ctx": "Mufflons, Steinböcke, Auerochsen und",
+   "target": "Tarpane",
+   "next": [
+    "andere",
+    "viele",
+    "Steinbock"
+   ],
+   "typed": "pratne",
+   "corrected": [
+    "Piraten",
+    "Pflanzen",
+    "Pränder"
+   ]
+  },
+  {
+   "ctx": "Er war jedoch Besitzer eines NSU Ro 80",
+   "target": "mit",
+   "next": [
+    "und",
+    "mit",
+    "000"
+   ],
+   "typed": "it",
+   "corrected": [
+    "mit",
+    "TDI",
+    "und"
+   ]
+  },
+  {
+   "ctx": "Eger wurde",
+   "target": "am",
+   "next": [
+    "als",
+    "in",
+    "1945"
+   ],
+   "typed": "a",
+   "corrected": [
+    "am",
+    "an",
+    "ab"
+   ]
+  },
+  {
+   "ctx": "Zu Beginn verkehrte er einmal wöchentlich, ab Herbst 1897 zweimal",
+   "target": "wöchentlich",
+   "next": [
+    "wöchentlich",
+    "täglich"
+   ],
+   "typed": "wochentl",
+   "corrected": [
+    "wöchentlich",
+    "wochentäglich",
+    "wochenlang"
+   ]
+  },
+  {
+   "ctx": "Diese neuen Zellen, die B-Spermatogonien, gehen",
+   "target": "in",
+   "next": [
+    "in",
+    "auf",
+    "mit"
+   ],
+   "typed": "no",
+   "corrected": [
+    "von",
+    "in",
+    "noch"
+   ]
+  }
+ ]
+}

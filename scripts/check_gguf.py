@@ -55,8 +55,12 @@ from llama_cpp import Llama
 llm = Llama(model_path=args.gguf, n_ctx=256, logits_all=True, verbose=False, n_threads=4)
 hf = LlamaForCausalLM.from_pretrained(args.model_dir, torch_dtype=torch.float32).eval()
 texts = ["Ich habe heute keine Zeit, weil ich ", "Kannst du mir bitte ",
-         "Das <XBU><CHAR_H><CHAR_A><CHAR_U><XBC>"]
-agree, tot, kls = 0, 0, []
+         "Das <XBU><CHAR_H><CHAR_A><CHAR_U><XBC>", "Wir treffen uns morgen um ",
+         "Hast du schon gegessen? Ich ", "Liebe Grüße und bis ", "Kommst du heute Abend zur ",
+         "Das <XBU><CHAR_D><CHAR_E><CHAR_U><CHAR_T><CHAR_D><CHAR_C><CHAR_L><XBC>"]
+# Quantization flips argmax on near-ties (flat distributions), so a flip only counts as a mismatch when
+# torch gives the gguf's pick < 75% of its own top probability. Exact agreement is printed for reference.
+agree, exact, tot, kls = 0, 0, 0, []
 for t in texts:
     tok = [1] + sp.encode(t)
     llm.reset(); llm.eval(tok)
@@ -66,9 +70,13 @@ for t in texts:
     pa = np.exp(a - a.max(-1, keepdims=True)); pa /= pa.sum(-1, keepdims=True)
     pb = np.exp(b - b.max(-1, keepdims=True)); pb /= pb.sum(-1, keepdims=True)
     kls += list((pb * (np.log(pb + 1e-12) - np.log(pa + 1e-12))).sum(-1))
-    agree += int((a.argmax(-1) == b.argmax(-1)).sum()); tot += len(tok)
-    print(f"  {t!r}: gguf next={sp.id_to_piece(int(a[-1].argmax()))!r} torch next={sp.id_to_piece(int(b[-1].argmax()))!r}")
-check(agree / tot >= 0.9, f"top-1 agreement {agree}/{tot}")
+    ia, ib = a.argmax(-1), b.argmax(-1)
+    rows = np.arange(len(tok))
+    exact += int((ia == ib).sum()); tot += len(tok)
+    agree += int(((ia == ib) | (pb[rows, ia] >= 0.75 * pb[rows, ib])).sum())
+    print(f"  {t!r}: gguf next={sp.id_to_piece(int(ia[-1]))!r} torch next={sp.id_to_piece(int(ib[-1]))!r}")
+print(f"  exact top-1 agreement {exact}/{tot}")
+check(agree / tot >= 0.95, f"top-1 agreement (near-ties allowed) {agree}/{tot}")
 check(float(np.mean(kls)) < 0.05, f"mean KL(torch||gguf) {np.mean(kls):.4f}")
 llm.close()
 sys.exit(0 if ok else 1)
