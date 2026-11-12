@@ -15,4 +15,5 @@ dependencies = [
   "safetensors",
   "protobuf>=7.36.2",
   "llama-cpp-python>=0.3.36",
+  "matplotlib>=3.10.9",
 ]
