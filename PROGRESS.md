@@ -12,7 +12,8 @@ Related: futo-org/android-keyboard#2400 (Hungarian request; same need).
 - [ ] M5 Train 34.4M Llama (8L/512/FFN1280) on RTX 3090 — running since 11:13, 52,960 steps, ~107k tok/s, ETA ~4.5h
 - [ ] M6 GGUF export + validation (`scripts/05_export_gguf.py`)
 - [ ] M7 Eval (top-k next word, autocorrect) and on-device test in FUTO
-- [ ] M8 Publish model (HF) + comment on upstream issue
+- [ ] M8 Publish model (GitHub release; interim v0.1-10k pre-release done) + comment on upstream issue
+- [ ] v2: chat-focused model, see docs/V2_PLAN.md
 
 ## Log
 - 2026-11-12: Read issue #2400, Greek repo, FUTO source. Key finding: layout gate rejects QWERTZ unless
@@ -25,3 +26,4 @@ Related: futo-org/android-keyboard#2400 (Hungarian request; same need).
 - 2026-11-12: Code review against FUTO's real English GGUF + app source (docs/CODE_REVIEW.md). Critical tokenizer whitespace bug fixed (tokenizer retrained), dataset/training aligned with app inference (short contexts, key-embedding mixing, umlaut layouts). `scripts/run_all.sh` builds shards + trains detached.
 - 2026-11-12: Training started. Found + fixed critical export bug (tokenizer blob INT32 vs UINT8 expected by app).
 - 2026-11-12 12:20: Interim checkpoint 10k/52,960 steps (val loss 3.29). App-faithful eval (06_eval.py ports the app's Sample/transform_logits; 420 held-out cases): autocorrect top-1/top-3 59.5%/75.0% (full words 67.0%/83.3%), next word 14.3%/25.0%. Interim GGUF de_keyboard_10k_q6_k.gguf (37.4 MB, all Q6_K) passes check_gguf incl. app-style tokenizer load + parity. GPU power-capped to 280 W by user: no more thermal pauses, 183 steps/min.
+- 2026-11-12 12:50: Decided to finish v1 as is; chat-focused extensions collected in docs/V2_PLAN.md (OpenSubtitles v2024 + Tatoeba already downloaded to data/download/).
