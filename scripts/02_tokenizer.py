@@ -3,6 +3,7 @@
 
 Requirements (see docs/FUTO_FORMAT.md):
 - Unigram, whitespace as suffix (`inverted_space`)
+- remove_extra_whitespaces=False (trailing space is meaningful, as in FUTO's English tokenizer)
 - ids: <unk>=0 <s>=1 </s>=2 <pad>=3 (FUTO prepends BOS id 1)
 - user-defined symbols <XBU> <XBC> <XEC> <CHAR_A>..<CHAR_Z>; CHAR_* ids must be consecutive (given by order)
 """
@@ -47,12 +48,13 @@ def main():
         split_digits=True,
         normalization_rule_name="identity",
         add_dummy_prefix=False,
-        remove_extra_whitespaces=True,
+        # FUTO tokenizes `trim(context) + " "` and relies on the trailing space surviving (English model: False)
+        remove_extra_whitespaces=False,
         unk_id=0, bos_id=1, eos_id=2, pad_id=3,
         user_defined_symbols=CONTROL,
         input_sentence_size=total,
         shuffle_input_sentence=True,
-        num_threads=4,
+        num_threads=8,
         train_extremely_large_corpus=False,
         seed_sentencepiece_size=500000,
     )
@@ -63,7 +65,9 @@ def main():
     for t in ["<XBU>", "<XBC>", "<XEC>", "▁"]:
         assert sp.piece_to_id(t) != 0, f"missing {t}"
     print("vocab", sp.get_piece_size(), "CHAR_A id", ids[0], "XBU/XBC/XEC", [sp.piece_to_id(t) for t in CONTROL[:3]])
-    for s in ["Das ist ein Test für Übergrößen.", "Donaudampfschifffahrtsgesellschaft", "<XBU><CHAR_H><CHAR_A><XBC>Haus ▁<XEC>"]:
+    # trailing space must survive: FUTO's context ends with a word-final piece
+    assert sp.encode("Das ist ein ", out_type=str)[-1].endswith("\u2581"), "trailing space stripped"
+    for s in ["Das ist ein Test für Übergrößen. ", "Donaudampfschifffahrtsgesellschaft ", "Das <XBU><CHAR_H><CHAR_A><XBC>Haus <XEC>ist "]:
         print(sp.encode(s, out_type=str))
 
 

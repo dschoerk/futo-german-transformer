@@ -13,4 +13,5 @@ dependencies = [
   "tqdm",
   "accelerate",
   "safetensors",
+  "protobuf>=7.36.2",
 ]
