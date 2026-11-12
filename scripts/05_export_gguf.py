@@ -56,6 +56,7 @@ def main():
     w.add_string("keyboardlm.history", f"{date.today().isoformat()}: Model created (futo-german-transformer)")
     w.add_string("keyboardlm.features", args.features)
     w.add_string("keyboardlm.ext_tokenizer_type", "sentencepiece")
+    w.add_string("keyboardlm.layouts", "qwertz")  # informational, see docs/upstream_patch.md (ignored by the app today)
     w.add_array("keyboardlm.ext_tokenizer_data", np.frombuffer(tok_bytes, dtype=np.uint8).tolist())
 
     w.add_context_length(2048)  # app's LLAMA_CONTEXT_SIZE; English model declares the same
