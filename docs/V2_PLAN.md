@@ -23,6 +23,24 @@ Proposed mix: about 50% subtitles, 10% Tatoeba (upweighted), 40% v1 data as repl
   - sometimes swap in common chat abbreviations (vllt, lg, hdl, gn8, bzw, iwie, ne/nee, glei) and colloquial forms (hab/habe, is/ist, nich/nicht).
 - Packing: treat each subtitle "scene" (a block of consecutive lines) like a chat thread, so context comes from the previous lines.
 
+## 2b. Contractions (important feature, high priority)
+v1 checkpoint at 30k steps, using the app's sampler:
+- *Hallo, wie* → next ich/lange/gesagt (expected *geht's*)
+- `gehts` → gehts/geht/heißt (no *geht's*); `habs` → habe/habs/hab; `wars` → waren/war/warst; `wirds` → diese/dieses/wieder
+- `gibts` → **gibt's** (the one success)
+
+Causes:
+1. Contractions are rare in prose: *gibt's*/*geht's* ≈ 2.2k each in 10.7M lines.
+2. Mixed apostrophes: 73% of Wikipedia apostrophes are `’`, but the keyboard types `'`.
+3. `geht's` = 3 tokens (`geht` `'` `s▁`). The app's 3-wide beam penalises multi-token words, which is presumably why FUTO's English tokenizer has `I'm▁`, `don't▁`, `'s▁` etc. as single tokens.
+
+Fixes:
+- Tokenizer: ~40–60 frequent German contractions as user-defined single pieces (`geht's▁ gibt's▁ hab's▁ war's▁ wird's▁ ist's▁ wie's▁ wenn's▁ hat's▁ mach's▁ so'n▁ 's▁ 'n▁` …, mined by frequency from subtitles/Reddit).
+- Normalize `’` → `'` between letters in all training text.
+- Chat augmentation: *geht es* → *geht's*/*gehts*, *gibt es* → *gibt's*, *habe es* → *hab's*, *ein(en)* → *'n*/*nen*, *auf dem* → *aufm*.
+- Autocorrect: the app strips `'` from the typed letters, so `gehts` must be able to yield *geht's* (already true in our typo model). Count both spellings as correct in eval.
+- Eval: a dedicated contraction test list as a separate metric; tighten the English filter (it's / i'm / let's leak today).
+
 ## 3. Tokenizer v2 (forces a full retrain, so do it together with 1–2)
 - **Emoji:** add about 300 emoji as user-defined symbols, as FUTO's English tokenizer does. Today emoji fall back to byte tokens like `<0xF0>`, which the app bans, so they can never be suggested. Training data needs emoji, which subtitles lack: options are Reddit, or a keyword→emoji insertion heuristic as a stopgap.
 - **Contractions:** add German contractions as whole pieces (`geht's▁`, `gibt's▁`, `hab's▁`, `wie's▁`, `ist's▁`), like English `I'm▁`.
