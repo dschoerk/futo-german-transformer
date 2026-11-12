@@ -18,7 +18,7 @@ def main():
     ap.add_argument("--raw-dir", default="data/raw")
     ap.add_argument("--out-dir", default="models/tokenizer")
     ap.add_argument("--vocab-size", type=int, default=20000)
-    ap.add_argument("--per-source", type=int, default=1_500_000, help="max sentences taken from each source")
+    ap.add_argument("--per-source", type=int, default=700_000, help="max sentences taken from each source")
     ap.add_argument("--seed", type=int, default=0)
     args = ap.parse_args()
 
@@ -52,7 +52,9 @@ def main():
         user_defined_symbols=CONTROL,
         input_sentence_size=total,
         shuffle_input_sentence=True,
-        num_threads=16,
+        num_threads=4,
+        train_extremely_large_corpus=False,
+        seed_sentencepiece_size=500000,
     )
 
     sp = spm.SentencePieceProcessor(model_file=str(out / "tokenizer.model"))
